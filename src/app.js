@@ -7,10 +7,26 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.get('/albums', (_, res) => {
-  fs.readFile(__dirname + '/' + 'albums.json', 'utf8', function (_, data) {
-    res.status(200).send(data)
-  })
+app.get('/albums', (req, res) => {
+  const { artist } = req.query;
+  let returnAlbum = null;
+  if (artist) {
+    fs.readFile(__dirname + '/' + 'albums.json', 'utf8',
+      function (_, data) {
+        data = JSON.parse(data)
+        for (let i = 0; i < data.length; i++) {
+          if (data[i].artist == artist) {
+            returnAlbum = data[i];
+            return res.status(200).send(returnAlbum)
+          }
+        }
+        return res.status(200).send("Artist not found");
+      })
+  } else {
+    fs.readFile(__dirname + '/' + 'albums.json', 'utf8', function (_, data) {
+      res.status(200).send(data)
+    })
+  }
 })
 
 app.get('/albums/:id', (req, res) => {
@@ -72,7 +88,7 @@ app.put('/albums/:id', (req, res) => {
       data = JSON.parse(data)
       for (let i = 0; i < data.length; i++) {
         if (data[i].id == id) {
-          data[i] = { id, ...updatedAlbum } 
+          data[i] = { id, ...updatedAlbum }
         }
       }
       res.end(JSON.stringify(data))
