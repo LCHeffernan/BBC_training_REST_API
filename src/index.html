@@ -46,7 +46,14 @@
             "http://localhost:3000/albums/" + id
         );
         let album = await albumResponse.json();
-        document.getElementById("table").innerHTML = ""
+        document.getElementById("table").innerHTML = `
+        <tr>
+            <th>Album name</th>
+            <th>Artist</th>
+            <th>Price</th>
+            <th>No. of tracks</th>
+        </tr>
+        `
         let newRecord = `
             <tr>
                 <td>${album.title}</td>
@@ -56,6 +63,7 @@
             </tr>
         `
         document.getElementById("table").innerHTML += newRecord
+        
       }
       getAlbumData();
     </script>
