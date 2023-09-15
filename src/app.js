@@ -64,4 +64,25 @@ app.post('/albums', (req, res) => {
   res.status(201).send('album successfully created')
 })
 
+app.put('/albums/:id', (req, res) => {
+  const { id } = req.params;
+  let updatedAlbum = req.body
+  fs.readFile(__dirname + '/' + 'albums.json', 'utf8',
+    function (_, data) {
+      data = JSON.parse(data)
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].id == id) {
+          data[i] = { id, ...updatedAlbum } 
+        }
+      }
+      res.end(JSON.stringify(data))
+      fs.writeFile(__dirname + '/' + 'albums.json',
+        JSON.stringify(data), function
+        (err) {
+        if (err) { return console.log(err) }
+      })
+    })
+  res.status(200).send('album updated if it existed')
+})
+
 module.exports = app;
