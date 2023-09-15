@@ -17,8 +17,23 @@
         </tr>
     </table>
 
-    <input id="input" type="number"/>
+    <h2>Get by ID</h2>
+    <input id="input_get" type="number"/>
     <button onclick="getSingleAlbum()">Enter</button>
+
+    <h2>Delete by ID</h2>
+    <input id="input_del" type="number"/>
+    <button onclick="deleteSingleAlbum()">Enter</button>
+
+    <h2>Add Track with ID</h2>
+    <input placeholder="id" id="input_post_id" type="number"/>
+    <input placeholder="Title" id="input_post_title" type="text"/>
+    <input placeholder="Artist" id="input_post_artist" type="text"/>
+    <input placeholder="Price" id="input_post_price" type="text"/>
+    <input placeholder="Tracks" id="input_post_tracks" type="number"/>
+    <button onclick="postAlbum()">Enter</button>
+
+    <div id="message"></div>
     <script>
         //Fetch the api data
         async function getAlbumData() {
@@ -41,7 +56,7 @@
       }
 
       async function getSingleAlbum() {
-        let id = document.getElementById("input").value
+        let id = document.getElementById("input_get").value
         let albumResponse = await fetch(
             "http://localhost:3000/albums/" + id
         );
@@ -64,6 +79,50 @@
         `
         document.getElementById("table").innerHTML += newRecord
         
+      }
+
+      async function deleteSingleAlbum(){
+        let id = document.getElementById("input_del").value
+        let res = await fetch(
+            "http://localhost:3000/albums/" + id,
+            {method: "DELETE"}
+        );
+        document.getElementById("table").innerHTML = `
+        <tr>
+            <th>Album name</th>
+            <th>Artist</th>
+            <th>Price</th>
+            <th>No. of tracks</th>
+        </tr>
+        `
+        document.getElementById("message").innerHTML = "Success, the album has been deleted"
+      }
+
+    function postAlbum(){
+        //Fetch the values from the form
+        let id = document.getElementById("input_post_id").value
+        let title = document.getElementById("input_post_title").value
+        let artist = document.getElementById("input_post_artist").value
+        let price = document.getElementById("input_post_price").value
+        let tracks = document.getElementById("input_post_tracks").value
+
+        //Send the request
+        fetch("http://localhost:3000/albums/", {
+            method: "POST",
+            body: JSON.stringify({
+                id: id,
+                title: title,
+                artist: artist,
+                price: price,
+                tracks: tracks
+            }),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
+        });
+
+        //Display a success message
+        document.getElementById("message").innerHTML = "Success, the album has been created"
       }
       getAlbumData();
     </script>
