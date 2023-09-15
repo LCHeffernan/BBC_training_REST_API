@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <link rel="stylesheet" href="styling.css"/> 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Albums</title>
@@ -15,11 +16,14 @@
             <th>No. of tracks</th>
         </tr>
     </table>
+
+    <input id="input" type="number"/>
+    <button onclick="getSingleAlbum()">Enter</button>
     <script>
         //Fetch the api data
         async function getAlbumData() {
         let albumResponse = await fetch(
-            "http://localhost:8081/albums"
+            "http://localhost:3000/albums"
         );
         let albums = await albumResponse.json();
         for (let i = 0; i < albums.length; i++){
@@ -35,6 +39,25 @@
             document.getElementById("table").innerHTML += newRecord
         }
       }
+
+      async function getSingleAlbum() {
+        let id = document.getElementById("input").value
+        let albumResponse = await fetch(
+            "http://localhost:3000/albums/" + id
+        );
+        let album = await albumResponse.json();
+        document.getElementById("table").innerHTML = ""
+        let newRecord = `
+            <tr>
+                <td>${album.title}</td>
+                <td>${album.artist}</td>
+                <td>${album.price}</td>
+                <td>${album.tracks}</td>
+            </tr>
+        `
+        document.getElementById("table").innerHTML += newRecord
+      }
+      getAlbumData();
     </script>
   </body>
 </html>
