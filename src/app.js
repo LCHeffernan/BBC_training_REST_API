@@ -8,10 +8,10 @@ app.use(express.json());
 app.use(cors());
 
 app.get('/albums', function (_, res) {
-    fs.readFile(__dirname + '/' + 'albums.json', 'utf8', function (_, data) {
-      console.log(data)
-      res.status(200).send(data)
-    })
+  fs.readFile(__dirname + '/' + 'albums.json', 'utf8', function (_, data) {
+    console.log(data)
+    res.status(200).send(data)
   })
+})
 
 module.exports = app;
