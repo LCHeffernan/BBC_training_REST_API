@@ -49,4 +49,19 @@ app.delete('/albums/:id', (req, res) => {
   res.status(204).send('album removed if it existed')
 })
 
+app.post('/albums', (req, res) => {
+  const newAlbum = req.body
+  fs.readFile(__dirname + '/' + 'albums.json', 'utf8', function (_, data) {
+    data = JSON.parse(data)
+    data.push(newAlbum)
+    res.end(JSON.stringify(data))
+    fs.writeFile(__dirname + '/' + 'albums.json',
+      JSON.stringify(data), function
+      (err) {
+      if (err) { return console.log(err) }
+    })
+  })
+  res.status(201).send('album successfully created')
+})
+
 module.exports = app;
