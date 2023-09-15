@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Albums</title>
+  </head>
+  <body>
+    <h1>Album view</h1>
+    <table id="table">
+        <tr>
+            <th>Album name</th>
+            <th>Artist</th>
+            <th>Price</th>
+            <th>No. of tracks</th>
+        </tr>
+    </table>
+    <script>
+        //Fetch the api data
+        async function getAlbumData() {
+        let albumResponse = await fetch(
+            "http://localhost:8081/albums"
+        );
+        let albums = await albumResponse.json();
+        for (let i = 0; i < albums.length; i++){
+            let currentAlbum = albums[i]
+            let newRecord = `
+                <tr>
+                    <td>${currentAlbum.title}</td>
+                    <td>${currentAlbum.artist}</td>
+                    <td>${currentAlbum.price}</td>
+                    <td>${currentAlbum.tracks}</td>
+                </tr>
+            `
+            document.getElementById("table").innerHTML += newRecord
+        }
+      }
+    </script>
+  </body>
+</html>
