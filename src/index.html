@@ -10,6 +10,7 @@
     <h1>Album view</h1>
     <table id="table">
         <tr>
+            <th>ID</th>
             <th>Album name</th>
             <th>Artist</th>
             <th>Price</th>
@@ -24,6 +25,10 @@
     <h2>Delete by ID</h2>
     <input id="input_del" type="number"/>
     <button onclick="deleteSingleAlbum()">Enter</button>
+
+    <h2>Get by artist</h2>
+    <input id="input_artist" type="text"/>
+    <button onclick="getArtist()">Enter</button>
 
     <div class="form">
         <h2>Add Track with ID</h2>
@@ -46,6 +51,7 @@
             let currentAlbum = albums[i]
             let newRecord = `
                 <tr>
+                    <td>${currentAlbum.id}</td>
                     <td>${currentAlbum.title}</td>
                     <td>${currentAlbum.artist}</td>
                     <td>${currentAlbum.price}</td>
@@ -64,6 +70,7 @@
         let album = await albumResponse.json();
         document.getElementById("table").innerHTML = `
         <tr>
+            <th>ID</th>
             <th>Album name</th>
             <th>Artist</th>
             <th>Price</th>
@@ -72,6 +79,7 @@
         `
         let newRecord = `
             <tr>
+                <td>${album.id}<td/>
                 <td>${album.title}</td>
                 <td>${album.artist}</td>
                 <td>${album.price}</td>
@@ -90,6 +98,7 @@
         );
         document.getElementById("table").innerHTML = `
         <tr>
+            <th>ID</th>
             <th>Album name</th>
             <th>Artist</th>
             <th>Price</th>
@@ -124,6 +133,33 @@
 
         //Display a success message
         document.getElementById("message").innerHTML = "Success, the album has been created"
+      }
+
+      async function getArtist(){
+        let artist = document.getElementById("input_artist").value
+        let albumResponse = await fetch(
+            "http://localhost:3000/albums?artist=" + artist
+        );
+        let album = await albumResponse.json();
+        document.getElementById("table").innerHTML = `
+        <tr>
+            <th>ID</th>
+            <th>Album name</th>
+            <th>Artist</th>
+            <th>Price</th>
+            <th>No. of tracks</th>
+        </tr>
+        `
+        let newRecord = `
+            <tr>
+                <td>${album.id}</td>
+                <td>${album.title}</td>
+                <td>${album.artist}</td>
+                <td>${album.price}</td>
+                <td>${album.tracks}</td>
+            </tr>
+        `
+        document.getElementById("table").innerHTML += newRecord
       }
       getAlbumData();
     </script>
