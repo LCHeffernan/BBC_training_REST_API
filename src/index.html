@@ -17,8 +17,13 @@
         </tr>
     </table>
 
-    <input id="input" type="number"/>
+    <input id="input_get" type="number"/>
     <button onclick="getSingleAlbum()">Enter</button>
+
+    <input id="input_del" type="number"/>
+    <button onclick="deleteSingleAlbum()">Enter</button>
+
+    <div id="message"></div>
     <script>
         //Fetch the api data
         async function getAlbumData() {
@@ -41,7 +46,7 @@
       }
 
       async function getSingleAlbum() {
-        let id = document.getElementById("input").value
+        let id = document.getElementById("input_get").value
         let albumResponse = await fetch(
             "http://localhost:3000/albums/" + id
         );
@@ -63,6 +68,25 @@
             </tr>
         `
         document.getElementById("table").innerHTML += newRecord
+        
+      }
+
+      async function deleteSingleAlbum(){
+        let id = document.getElementById("input_del").value
+        let res = await fetch(
+            "http://localhost:3000/albums/" + id,
+            {method: "DELETE"}
+        );
+        document.getElementById("table").innerHTML = `
+        <tr>
+            <th>Album name</th>
+            <th>Artist</th>
+            <th>Price</th>
+            <th>No. of tracks</th>
+        </tr>
+        `
+
+        document.getElementById("message").innerHTML = "Success, the album has been deleted"
         
       }
       getAlbumData();
