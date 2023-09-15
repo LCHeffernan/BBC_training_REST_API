@@ -15,7 +15,7 @@ app.get('/albums', (_, res) => {
 
 app.get('/albums/:id', (req, res) => {
   fs.readFile(__dirname + '/' + 'albums.json', 'utf8', function (_, data) {
-    const id = req.params.id
+    const { id } = req.params
     data = JSON.parse(data)
     console.log('you requested album ' + id)
     let returnAlbum
@@ -28,6 +28,25 @@ app.get('/albums/:id', (req, res) => {
     console.log(returnAlbum)
     res.status(200).send(JSON.stringify(returnAlbum))
   })
+})
+
+app.delete('/albums/:id', (req, res) => {
+  fs.readFile(__dirname + '/' + 'albums.json', 'utf8', function (_, data) {
+    let { id } = req.params
+    data = JSON.parse(data)
+    console.log('you requested album ' + id)
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].id == id) {
+        data.splice(i, 1)
+      }
+    }
+    fs.writeFile(__dirname + '/' + 'albums.json',
+      JSON.stringify(data), function
+      (err) {
+      if (err) { return console.log(err) }
+    })
+  })
+  res.status(204).send('album removed if it existed')
 })
 
 module.exports = app;
