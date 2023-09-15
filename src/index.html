@@ -25,14 +25,15 @@
     <input id="input_del" type="number"/>
     <button onclick="deleteSingleAlbum()">Enter</button>
 
-    <h2>Add Track with ID</h2>
-    <input placeholder="id" id="input_post_id" type="number"/>
-    <input placeholder="Title" id="input_post_title" type="text"/>
-    <input placeholder="Artist" id="input_post_artist" type="text"/>
-    <input placeholder="Price" id="input_post_price" type="text"/>
-    <input placeholder="Tracks" id="input_post_tracks" type="number"/>
-    <button onclick="postAlbum()">Enter</button>
-
+    <div class="form">
+        <h2>Add Track with ID</h2>
+        <input placeholder="id" id="input_post_id" type="number"/>
+        <input placeholder="Title" id="input_post_title" type="text"/>
+        <input placeholder="Artist" id="input_post_artist" type="text"/>
+        <input placeholder="Price" id="input_post_price" type="text"/>
+        <input placeholder="Tracks" id="input_post_tracks" type="number"/>
+        <button onclick="postAlbum()">Enter</button>
+    </div>
     <div id="message"></div>
     <script>
         //Fetch the api data
